@@ -25,15 +25,16 @@ This project automates the collection of articles from the BeyondChats blog, rew
 
 | Feature | Description |
 |--------|-------------|
-| 📰 Scrapes BeyondChats articles (oldest 5) |
-| 🔗 Fetches top-ranking competitor articles via Google Search |
-| ✍️ Uses AI to rewrite content referencing competitor structure |
-| 📌 Stores original & updated versions in MongoDB |
-| 🔄 Auto-rewrite button in UI |
-| 👀 Toggle `Show Original / Show Updated` |
-| 📚 References stored & shown below updated version |
-| 📏 `View More / View Less` toggle for long articles |
-| 📱 Responsive frontend UI with smooth animations |
+| 📰 Scrapes BeyondChats articles (oldest 5) | Automatically fetches the five oldest blog posts from BeyondChats to build the initial dataset. |
+| 🔗 Fetches top-ranking competitor articles via Google Search | Searches article titles on Google and collects the first 1–2 relevant sources for comparison and rewriting. |
+| ✍️ Uses AI to rewrite content referencing competitor structure | Sends original + competitor article content to an LLM to generate an improved, SEO-friendly rewritten version. |
+| 📌 Stores original & updated versions in MongoDB | Saves both raw and rewritten versions in a single document, allowing comparison and version history. |
+| 🔄 Auto-rewrite button in UI | Lets users trigger rewriting of all articles directly from the frontend without running scripts manually. |
+| 👀 Toggle `Show Original / Show Updated` | Users can switch between the original scraped article and the AI-generated enhanced version in one click. |
+| 📚 References stored & shown below updated version | The rewritten article includes source links from competitor blogs, displayed for transparency and citation. |
+| 📏 `View More / View Less` toggle for long articles | Automatically collapses articles longer than 100 words and expands them on demand for clean readability. |
+| 📱 Responsive frontend UI with smooth animations | Fully responsive React UI featuring gradient styling, hover effects, and animated buttons for modern UX. |
+
 
 ---
 
