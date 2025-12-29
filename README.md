@@ -5,8 +5,8 @@ This project automates the collection of articles from the BeyondChats blog, rew
 
 | Component | Live URL |
 |-----------|----------|
-| **Frontend UI** | https://YOUR-CLIENT-URL.onrender.com |
-| **Backend API** | https://beyondchat-automation.onrender.com/api/articles |
+| **Frontend UI** | [Live-Preview](https://beyondchat-automation-1.onrender.com) |
+| **Backend API** | [https://beyondchat-automation.onrender.com/api/articles](https://beyondchat-automation.onrender.com) |
 | **Database** | MongoDB Atlas |
 
 ---
