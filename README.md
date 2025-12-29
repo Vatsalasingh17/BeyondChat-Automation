@@ -59,136 +59,177 @@ I -->|Toggle View| User((👤 User))
 
 ```
 
-🛠 Local Development Setup
+🛠 **Local Development Setup**
 
 Follow these steps to run the entire project locally — backend, scraper, updater, and UI.
 
-1️⃣ Clone Repository
+### **1️⃣ Clone Repository**
+```bash
 git clone https://github.com/YOUR-USERNAME/beyondchat-automation.git
 cd beyondchat-automation
+```
 
-2️⃣ Start MongoDB Locally
+### **2️⃣ Start MongoDB Locally**
 
-Windows:
-net start MongoDB
-
-macOS:
-brew services start mongodb-community
-
+| OS | Command |
+|----|--------|
+| 🪟 Windows | `net start MongoDB` |
+| 🍏 macOS | `brew services start mongodb-community` |
 
 MongoDB default URL:
+```
 mongodb://localhost:27017/beyondchats
+```
 
-3️⃣ Backend Setup (server)
-
+### **3️⃣ Backend Setup (Server ⚙️)**
+```bash
 cd server
 npm install
+```
 
-
-Create .env inside /server:
+Create `.env` inside `/server`:
+```
 PORT=5000
 MONGO_URI=mongodb://localhost:27017/beyondchats
+```
 
-
-Run server:
+Run backend:
+```bash
 npm start
+```
 
-
-Backend is live at:
+Backend URL:
+```
 http://localhost:5000
+```
 
-
-4️⃣ Scrape Articles
-
-Fetch original BeyondChats articles into DB:
+### **4️⃣ Scrape Articles**
+```bash
 cd server
 npm run scrape
+```
 
-
-5️⃣ Updater Setup (rewrite engine)
+### **5️⃣ Updater Setup (Rewrite Engine 🤖)**
+```bash
 cd updater
 npm install
+```
 
-Create updater/.env:
-
+Create `updater/.env`:
+```
 API_URL=http://localhost:5000/api/articles
 OPENAI_API_KEY=your_key_here
 SERP_API_KEY=your_serp_api_key_here
-
+```
 
 Run updater:
+```bash
 node update-articles.js
+```
 
-This generates & saves updated versions using AI.
-
-6️⃣ Frontend UI Setup
+### **6️⃣ Frontend UI Setup (React 💻)**
+```bash
 cd client
 npm install
+```
 
-
-Create client/.env:
+Create `client/.env`:
+```
 REACT_APP_API_URL=http://localhost:5000/api/articles
+```
 
 Run UI:
+```bash
 npm start
+```
 
-Frontend:
+Frontend URL:
+```
 http://localhost:3000
-7️⃣ Local Verification Checklist
+```
 
-| Component          | How to Run / URL                                                              | Expected Output                                                   |
-| ------------------ | ----------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| **Backend API**    | `http://localhost:5000/api/articles`                                          | JSON list of articles                                             |
-| **Frontend UI**    | `http://localhost:3000`                                                       | Original & Updated articles visible with toggle                   |
-| **Updater Script** | `node update-articles.js`                                                     | `✨ Updated version generated and saved` message in terminal       |
-| **Database**       | Open **MongoDB Compass** → connect to `mongodb://localhost:27017/beyondchats` | Articles collection with both `content` + `updatedVersion` fields |
+### **7️⃣ Local Verification Checklist**
 
-🌍 Deployment Instructions (Summary)
-| Component | URL                                                                      | Expected                                |
-| --------- | ------------------------------------------------------------------------ | --------------------------------------- |
-| Backend   | [http://localhost:5000/api/articles](http://localhost:5000/api/articles) | JSON article list                       |
-| UI        | [http://localhost:3000](http://localhost:3000)                           | Original + Updated articles             |
-| Updater   | `node update-articles.js`                                                | "✨ Updated version generated and saved" |
-| DB        | MongoDB Compass                                                          | Both versions stored                    |
+| Component | How to Run / URL | Expected Output |
+|----------|------------------|----------------|
+| 🛠 Backend API | http://localhost:5000/api/articles | JSON list of articles |
+| 💻 Frontend UI | http://localhost:3000 | Original & Updated articles with toggle |
+| 🤖 Updater Script | node update-articles.js | ✨ Updated version generated and saved |
+| 🗄 Database | MongoDB Compass → mongodb://localhost:27017/beyondchats | Articles stored with updatedVersion |
 
+---------------------------------------------------------------------
 
-When deploying, place Atlas URL in Render env:
+🌍 **Deployment Instructions (Summary)**
+
+Deploy backend on Render:
+```
+Root Directory: server
+Build Command: npm install
+Start Command: npm start
+```
+
+Render environment variables:
+```
 MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/beyondchats
 PORT=10000
+```
 
-📚 API Endpoints
+Deploy frontend on Render/Vercel:
+```
+Root Directory: client
+```
 
-| Method | Endpoint            | Description                       |
-| ------ | ------------------- | --------------------------------- |
-| GET    | `/api/articles`     | List all articles                 |
-| POST   | `/update-articles`  | Rewrite & update all articles     |
-| GET    | `/api/articles/:id` | Show a single article             |
-| PUT    | `/api/articles/:id` | Update original / updated version |
-| DELETE | `/api/articles/:id` | Remove article                    |
+---------------------------------------------------------------------
 
-🎨 UI Highlights
+📚 **API Endpoints**
 
-Glassmorphism & gradient theme
-Hover animations for cards
-Toggle button with dynamic styling
-Collapsible long text ("View More / View Less")
-Reference links shown under updated content
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/articles` | List all articles |
+| POST | `/update-articles` | Rewrite & update all articles |
+| GET | `/api/articles/:id` | Show a single article |
+| PUT | `/api/articles/:id` | Update any version |
+| DELETE | `/api/articles/:id` | Remove article |
 
-🚧 Known Limitations
-| Issue                         | Reason             | Planned Fix                 |
-| ----------------------------- | ------------------ | --------------------------- |
-| Medium scraping blocked (403) | Medium blocks bots | Proxy / RSS / scraper API   |
-| OpenAI rate limits            | Free quota small   | Add billing / switch models |
-| Batch rewriting heavy         | Many tokens        | Delay / cron automation     |
+---------------------------------------------------------------------
 
+🎨 **UI Highlights**
 
-🚀 Roadmap
- Rewrite single article from UI
- Auto daily rewrite via cron job
- SEO score comparison
- Export updated content to Markdown / Notion
- UI search + filters
+- ✨ Modern gradient + glassmorphism UI
+- 🌀 Smooth hover animations
+- 🔀 Toggle Original/Updated versions
+- 📖 “View More / View Less” collapsible content
+- 📚 Reference links shown under updated content
 
+---------------------------------------------------------------------
+
+🚧 **Known Limitations**
+
+| Issue | Reason | Planned Fix |
+|-------|--------|-------------|
+| ❌ Medium scraping blocked | Medium blocks bots | Proxy / scraper API |
+| ⚠️ OpenAI rate limits | Free quota small | Add billing / switch models |
+| 🐢 Rewrite uses many tokens | Long articles | Delay or cron rewrite |
+
+---------------------------------------------------------------------
+
+🚀 **Roadmap**
+
+- [ ] Rewrite single article from UI
+- [ ] Daily rewrite automation via cron job
+- [ ] SEO quality scoring
+- [ ] Export updated content to Markdown/Notion
+- [ ] UI search, filters, and tags
+
+---------------------------------------------------------------------
+
+🤝 **Contributing**
+
+PRs & issues welcome!
+
+---------------------------------------------------------------------
+
+⭐ **If this project helped you, please star the repository!**
 
 
 
