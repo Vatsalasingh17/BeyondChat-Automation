@@ -1,10 +1,32 @@
 // ArticleCard.js
 import { useState } from "react";
-import { FileText, ExternalLink, BookOpen, Sparkles, ChevronRight } from "lucide-react";
+import { FileText, ExternalLink, BookOpen, Sparkles, ChevronRight, ChevronDown } from "lucide-react";
 
 export default function ArticleCard({ article }) {
-  const [toggle, setToggle] = useState(false);
+  const [toggle, setToggle] = useState(false);   // false = original, true = updated
+  const [showFull, setShowFull] = useState(false); // view more / less
   const [isHovered, setIsHovered] = useState(false);
+
+  // determine which content to show based on toggle
+  const content = toggle
+    ? (article.updatedVersion || "No updated version available yet.")
+    : (article.content || "No original content available.");
+
+  // split into words
+  const words = content.split(" ");
+  const wordLimit = 75;
+  const isLong = words.length > wordLimit;
+
+  // manage displayed text
+  const displayText = showFull
+    ? content
+    : words.slice(0, wordLimit).join(" ") + (isLong ? "..." : "");
+
+  // when user switches Original/Updated, collapse again
+  const handleToggleVersion = () => {
+    setToggle(!toggle);
+    setShowFull(false);
+  };
 
   return (
     <div
@@ -30,7 +52,7 @@ export default function ArticleCard({ article }) {
           overflow: "hidden"
         }}
       >
-        {/* Decorative gradient overlay */}
+        {/* background glow */}
         <div
           style={{
             position: "absolute",
@@ -44,6 +66,8 @@ export default function ArticleCard({ article }) {
         />
 
         <div style={{ position: "relative", zIndex: 1 }}>
+
+          {/* header */}
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1rem" }}>
             <div
               style={{
@@ -72,6 +96,7 @@ export default function ArticleCard({ article }) {
             </h2>
           </div>
 
+          {/* source link */}
           <a
             href={article.url}
             target="_blank"
@@ -84,24 +109,17 @@ export default function ArticleCard({ article }) {
               textDecoration: "none",
               fontSize: "0.95rem",
               marginBottom: "1.5rem",
-              transition: "all 0.2s ease",
               padding: "0.5rem 1rem",
               background: "rgba(102, 126, 234, 0.1)",
-              borderRadius: "8px"
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(102, 126, 234, 0.2)";
-              e.currentTarget.style.transform = "translateX(4px)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "rgba(102, 126, 234, 0.1)";
-              e.currentTarget.style.transform = "translateX(0)";
+              borderRadius: "8px",
+              transition: "all 0.2s ease"
             }}
           >
             <ExternalLink size={16} />
             <span style={{ fontWeight: "500" }}>View Source</span>
           </a>
 
+          {/* toggle version */}
           <button
             style={{
               padding: "0.875rem 1.75rem",
@@ -119,24 +137,16 @@ export default function ArticleCard({ article }) {
               alignItems: "center",
               gap: "0.5rem",
               transition: "all 0.3s ease",
-              boxShadow: "0 4px 15px rgba(102, 126, 234, 0.3)",
-              transform: "scale(1)"
+              boxShadow: "0 4px 15px rgba(102, 126, 234, 0.3)"
             }}
-            onClick={() => setToggle(!toggle)}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "scale(1.05)";
-              e.currentTarget.style.boxShadow = "0 6px 20px rgba(102, 126, 234, 0.4)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "scale(1)";
-              e.currentTarget.style.boxShadow = "0 4px 15px rgba(102, 126, 234, 0.3)";
-            }}
+            onClick={handleToggleVersion}
           >
             {toggle ? <BookOpen size={20} /> : <Sparkles size={20} />}
             {toggle ? "Show Original" : "Show Updated"}
             <ChevronRight size={18} />
           </button>
 
+          {/* content preview / full */}
           <div
             style={{
               background: toggle
@@ -149,83 +159,50 @@ export default function ArticleCard({ article }) {
               fontSize: "1.05rem",
               color: "#333",
               border: "1px solid",
-              borderColor: toggle ? "rgba(245, 87, 108, 0.2)" : "rgba(102, 126, 234, 0.2)",
-              transition: "all 0.3s ease"
+              borderColor: toggle ? "rgba(245, 87, 108, 0.2)" : "rgba(102, 126, 234, 0.2)"
             }}
           >
-            {toggle
-              ? article.updatedVersion || (
-                  <div style={{ 
-                    textAlign: "center", 
-                    color: "#999",
-                    fontStyle: "italic",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    gap: "0.5rem"
-                  }}>
-                    <Sparkles size={32} color="#ddd" />
-                    No updated version available yet
-                  </div>
-                )
-              : article.content}
+            {displayText}
           </div>
 
-          {toggle && article.references?.length > 0 && (
-            <div
+          {/* VIEW MORE / LESS */}
+          {isLong && (
+            <button
+              onClick={() => setShowFull(!showFull)}
               style={{
-                marginTop: "1.5rem",
-                padding: "1.5rem",
-                background: "linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%)",
-                borderRadius: "12px",
-                border: "1px solid rgba(102, 126, 234, 0.15)"
+                background: "transparent",
+                border: "none",
+                color: "#764ba2",
+                fontWeight: "700",
+                cursor: "pointer",
+                marginTop: "1rem",
+                fontSize: "1rem",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.4rem"
               }}
             >
-              <h4
+              {showFull ? "View Less" : "View More"}
+              <ChevronDown
+                size={18}
                 style={{
-                  margin: "0 0 1rem 0",
-                  fontSize: "1.25rem",
-                  fontWeight: "600",
-                  color: "#667eea",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem"
+                  transform: showFull ? "rotate(180deg)" : "rotate(0deg)",
+                  transition: "all .3s"
                 }}
-              >
-                <BookOpen size={20} />
-                References
+              />
+            </button>
+          )}
+
+          {/* references */}
+          {toggle && article.references?.length > 0 && (
+            <div style={{ marginTop: "1.5rem" }}>
+              <h4 style={{ marginBottom: "1rem", fontSize: "1.25rem", fontWeight: "600", color: "#667eea" }}>
+                <BookOpen size={20} /> References
               </h4>
-              <ul style={{ margin: 0, padding: "0 0 0 1.5rem" }}>
+              <ul style={{ paddingLeft: "1.5rem" }}>
                 {article.references.map((ref, i) => (
-                  <li
-                    key={i}
-                    style={{
-                      marginBottom: "0.75rem",
-                      fontSize: "0.95rem"
-                    }}
-                  >
-                    <a
-                      href={ref}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        color: "#667eea",
-                        textDecoration: "none",
-                        transition: "all 0.2s ease",
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "0.5rem"
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.color = "#764ba2";
-                        e.currentTarget.style.transform = "translateX(4px)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.color = "#667eea";
-                        e.currentTarget.style.transform = "translateX(0)";
-                      }}
-                    >
-                      <ExternalLink size={14} />
+                  <li key={i} style={{ marginBottom: "0.75rem", fontSize: "0.95rem" }}>
+                    <a href={ref} target="_blank" rel="noopener noreferrer" style={{ color: "#667eea" }}>
                       {ref}
                     </a>
                   </li>
@@ -233,6 +210,7 @@ export default function ArticleCard({ article }) {
               </ul>
             </div>
           )}
+
         </div>
       </div>
     </div>

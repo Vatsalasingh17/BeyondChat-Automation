@@ -1,4 +1,4 @@
-// Home.js
+// Home.jsx
 import { useEffect, useState } from "react";
 import { api } from "../services/api";
 import ArticleCard from "../components/ArticleCard";
@@ -20,6 +20,20 @@ export default function Home() {
       });
   }, []);
 
+  // 🔄 Trigger backend rewrite
+  const triggerRewrite = async () => {
+    try {
+      await fetch(
+        process.env.REACT_APP_API_URL.replace("/articles", "/update-articles"),
+        { method: "POST" }
+      );
+      alert("Rewrite process started! Refresh in a minute to see updates.");
+    } catch (error) {
+      alert("Failed to start rewrite process.");
+      console.error(error);
+    }
+  };
+
   return (
     <div
       style={{
@@ -28,12 +42,8 @@ export default function Home() {
         padding: "3rem 2rem"
       }}
     >
-      <div
-        style={{
-          maxWidth: "1200px",
-          margin: "0 auto"
-        }}
-      >
+      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+        
         {/* Header */}
         <div
           style={{
@@ -54,6 +64,7 @@ export default function Home() {
           >
             BeyondChats Articles
           </h1>
+
           <p
             style={{
               margin: 0,
@@ -64,7 +75,48 @@ export default function Home() {
           >
             Explore original content and enhanced versions
           </p>
-        </div>
+
+          {/* 🔄 AUTO UPDATE BUTTON */}
+          {/* 🔄 AUTO UPDATE BUTTON — matches Show Updated / Show Original style */}
+<button
+  style={{
+    padding: "0.875rem 1.75rem",
+    marginBottom: "2rem",
+    background: "linear-gradient(135deg, #000f58ff 0%, #393939ff 100%)",
+    color: "#fff",
+    border: "none",
+    borderRadius: "12px",
+    cursor: "pointer",
+    fontSize: "1rem",
+    fontWeight: "600",
+    display: "flex",
+    alignItems: "center",
+    gap: "0.6rem",
+    transition: "all 0.3s ease",
+    boxShadow: "0 4px 15px rgba(102, 126, 234, 0.3)",
+    transform: "scale(1)",
+    marginTop: "2rem",
+    marginLeft: "auto",
+    marginRight: "auto"
+  }}
+  onClick={triggerRewrite}
+  onMouseEnter={(e) => {
+    e.currentTarget.style.transform = "scale(1.05)";
+    e.currentTarget.style.boxShadow = "0 6px 20px rgba(102, 126, 234, 0.4)";
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.transform = "scale(1)";
+    e.currentTarget.style.boxShadow = "0 4px 15px rgba(102, 126, 234, 0.3)";
+  }}
+>
+  <span style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+    <span style={{ fontSize: "1.4rem" }}>🔄</span>
+    Auto-Rewrite All Articles
+  </span>
+</button>
+
+        </div> 
+
 
         {/* Articles Grid */}
         {loading ? (
@@ -103,7 +155,8 @@ export default function Home() {
             style={{
               display: "grid",
               gap: "2rem",
-              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 600px), 1fr))"
+              gridTemplateColumns:
+                "repeat(auto-fit, minmax(min(100%, 600px), 1fr))"
             }}
           >
             {articles.map((article) => (
@@ -115,20 +168,11 @@ export default function Home() {
 
       <style>{`
         @keyframes fadeInDown {
-          from {
-            opacity: 0;
-            transform: translateY(-20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(-20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-        
         @keyframes spin {
-          to {
-            transform: rotate(360deg);
-          }
+          to { transform: rotate(360deg); }
         }
       `}</style>
     </div>
