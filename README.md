@@ -60,7 +60,7 @@ I -->|Toggle View| User((👤 User))
 
 ```
 
-🛠 **Local Development Setup**
+##  🛠 **Local Development Setup**
 
 Follow these steps to run the entire project locally — backend, scraper, updater, and UI.
 
@@ -160,7 +160,7 @@ http://localhost:3000
 
 ---------------------------------------------------------------------
 
-🌍 **Deployment Instructions (Summary)**
+## 🌍 **Deployment Instructions (Summary)**
 
 Deploy backend on Render:
 ```
@@ -182,7 +182,7 @@ Root Directory: client
 
 ---------------------------------------------------------------------
 
-📚 **API Endpoints**
+##  📚 **API Endpoints**
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -194,7 +194,7 @@ Root Directory: client
 
 ---------------------------------------------------------------------
 
-🎨 **UI Highlights**
+ ##  🎨 **UI Highlights**
 
 - ✨ Modern gradient + glassmorphism UI
 - 🌀 Smooth hover animations
@@ -204,7 +204,7 @@ Root Directory: client
 
 ---------------------------------------------------------------------
 
-🚧 **Known Limitations**
+##  🚧 **Known Limitations**
 
 | Issue | Reason | Planned Fix |
 |-------|--------|-------------|
@@ -214,7 +214,7 @@ Root Directory: client
 
 ---------------------------------------------------------------------
 
-🚀 **Roadmap**
+## 🚀 **Roadmap**
 
 - [ ] Rewrite single article from UI
 - [ ] Daily rewrite automation via cron job
@@ -224,7 +224,7 @@ Root Directory: client
 
 ---------------------------------------------------------------------
 
-🤝 **Contributing**
+## 🤝 **Contributing**
 
 PRs & issues welcome!
 
