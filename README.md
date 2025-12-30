@@ -7,7 +7,7 @@ This project automates the collection of articles from the BeyondChats blog, rew
 |-----------|----------|
 | **Frontend UI** | [Live-Preview](https://beyondchat-automation-1.onrender.com) |
 | **Backend API** | [https://beyondchat-automation.onrender.com/api/articles](https://beyondchat-automation.onrender.com) |
-| **Database** | MongoDB Atlas |
+| **Database** | MongoDB=Atlas [mongodb+srv://Vatsala1707:Vatsala17@cluster0.j62qo.mongodb.net/beyondchats?retryWrites=true&w=majority] |
 
 ---
 
